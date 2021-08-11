@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import {createBoard} from '../utils/board';
-import Cell from "./Cell";
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { createBoard } from '../utils/board';
+import Cell from './Cell';
 
 export default function Board() {
   const [board, setBoard] = useState([]);
@@ -11,13 +11,32 @@ export default function Board() {
     setBoard(new_board);
   }, []);
 
+  const handlePressCell = (id) => {
+    setBoard((prevBoard) => {
+      let new_board = [...prevBoard];
+      return new_board.map((columns) =>
+        columns.map((cell) => {
+          if (cell.id === id) {
+            return { ...cell, show: true };
+          } else return cell;
+        })
+      );
+    });
+  };
+
   return (
     <View>
       {Array.isArray(board) &&
         board.map((column, i) => (
-          <View style={{ flexDirection: "row" }}>
-            {column.map((cell, x) => (
-              <Cell key={i + "-" + x} value={cell.value} isMine={cell.isMine} />
+          <View key={i} style={{ flexDirection: 'row' }}>
+            {column.map((cell) => (
+              <Cell
+                onPress={() => handlePressCell(cell.id)}
+                key={cell.id}
+                value={cell.value}
+                isMine={cell.isMine}
+                show={cell.show}
+              />
             ))}
           </View>
         ))}

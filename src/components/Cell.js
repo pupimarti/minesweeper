@@ -1,22 +1,25 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
-export default function Cell({ value, isMine }) {
+export default function Cell({ value, isMine, show, onPress }) {
   return (
-    <View
+    <TouchableOpacity
       style={{
         width: 30,
         height: 30,
-        backgroundColor: isMine ? 'red' : 'grey',
+        backgroundColor: show ? (isMine ? 'red' : 'green') : 'grey',
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
         margin: 1,
       }}
+      onPress={onPress}
     >
-      <Text style={{ color: '#FFF', fontWeight: 'bold' }}>
-        {isMine ? 'X' : value}
-      </Text>
-    </View>
+      {show && (
+        <Text style={{ color: '#FFF', fontWeight: 'bold' }}>
+          {isMine ? 'X' : value}
+        </Text>
+      )}
+    </TouchableOpacity>
   );
 }

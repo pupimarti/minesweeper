@@ -3,7 +3,7 @@ export const createBoard = (size = 10, quantityMines = 10) => {
   for (let y = 0; y < size; y++) {
     let column = [];
     for (let x = 0; x < size; x++) {
-      column.push({ value: 0, isMine: false });
+      column.push({ value: 0, isMine: false, show: false, id: `${y}+${x}` });
     }
     new_board.push(column);
   }
