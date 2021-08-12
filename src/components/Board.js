@@ -6,13 +6,16 @@ import Cell from './Cell';
 export default function Board() {
   const [board, setBoard] = useState([]);
 
+  const [mines, setMines] = useState([]);
+
   useEffect(() => {
     startNew();
   }, []);
 
   const startNew = () => {
-    const new_board = createBoard();
-    setBoard(new_board);
+    const newGame = createBoard();
+    setBoard(newGame.board);
+    setMines(newGame.mines);
   };
 
   const handlePressCell = ({ id, value, isMine, x, y }) => {
@@ -31,10 +34,17 @@ export default function Board() {
         })
       );
     });
-    if (isMine) {
-      Alert.alert('Perdiste.');
-      startNew();
-    }
+    if (isMine) handleGameOver();
+  };
+
+  const handleGameOver = () => {
+    mines.forEach(({ x, y }) => {
+      setBoard((prevBoard) => {
+        let new_board = [...prevBoard];
+        new_board[y][x].show = true;
+        return new_board;
+      });
+    });
   };
 
   return (

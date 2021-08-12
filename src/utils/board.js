@@ -1,5 +1,5 @@
 export const createBoard = (size = 10, quantityMines = 10) => {
-  let new_board = [];
+  let board = [];
   for (let y = 0; y < size; y++) {
     let column = [];
     for (let x = 0; x < size; x++) {
@@ -12,7 +12,7 @@ export const createBoard = (size = 10, quantityMines = 10) => {
         y,
       });
     }
-    new_board.push(column);
+    board.push(column);
   }
 
   let mines = [];
@@ -20,8 +20,8 @@ export const createBoard = (size = 10, quantityMines = 10) => {
   while (mines.length < quantityMines) {
     const y = Math.floor(Math.random() * size - 1) + 1;
     const x = Math.floor(Math.random() * size - 1) + 1;
-    if (!new_board[y][x].isMine) {
-      new_board[y][x].isMine = true;
+    if (!board[y][x].isMine) {
+      board[y][x].isMine = true;
       mines.push({ y, x });
     }
   }
@@ -33,8 +33,8 @@ export const createBoard = (size = 10, quantityMines = 10) => {
       if (index_y >= 0 && index_y < size) {
         while (index_x <= x + 1) {
           if (index_x >= 0 && index_x < size) {
-            if (!new_board[index_y][index_x].isMine)
-              new_board[index_y][index_x].value++;
+            if (!board[index_y][index_x].isMine)
+            board[index_y][index_x].value++;
           }
           index_x++;
         }
@@ -45,7 +45,7 @@ export const createBoard = (size = 10, quantityMines = 10) => {
     }
   });
 
-  return new_board;
+  return { board, mines };
 };
 
 export const pressEmptyCell = ({ x, y }, board) => {
@@ -62,7 +62,6 @@ export const pressEmptyCell = ({ x, y }, board) => {
         while (index_x <= cell_empty.x + 1) {
           if (index_x >= 0 && index_x < board.length) {
             const cell = new_board[index_y][index_x];
-            console.log(cell);
             if (!cell.isMine && cell.value === 0 && !cell.show) {
               cell.show = true;
               empty_list.push({ x: index_x, y: index_y });
@@ -73,13 +72,11 @@ export const pressEmptyCell = ({ x, y }, board) => {
           index_x++;
         }
       }
-      index_x = x - 1;
+      index_x = cell_empty.x - 1;
 
       index_y++;
     }
   }
-
-  console.log(new_board);
 
   return new_board;
 };
