@@ -1,11 +1,14 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Game from './src/components/Game';
+import { GameContextProvider } from './src/context/GameContext';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Game />
+      <GameContextProvider>
+        <Game />
+      </GameContextProvider>
     </View>
   );
 }

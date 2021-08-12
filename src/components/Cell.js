@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
+import GameContext from '../context/GameContext';
 
-export default function Cell({ value, isMine, show, onPress }) {
+export default function Cell({
+  value,
+  isMine,
+  show,
+  onPress,
+  onLongPress,
+  x,
+  y,
+}) {
+  const { flags } = useContext(GameContext);
+  const isFlag = flags.find((flag) => flag.x === x && flag.y === y);
+
   return (
     <TouchableOpacity
       style={{
@@ -14,10 +26,11 @@ export default function Cell({ value, isMine, show, onPress }) {
         margin: 1,
       }}
       onPress={onPress}
+      onLongPress={onLongPress}
     >
-      {show && (
+      {(show || isFlag) && (
         <Text style={{ color: '#FFF', fontWeight: 'bold' }}>
-          {isMine ? 'X' : value}
+          {isFlag ? '?' : isMine ? 'X' : value}
         </Text>
       )}
     </TouchableOpacity>

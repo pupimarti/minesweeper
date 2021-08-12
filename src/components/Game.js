@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { STATE_GAME } from '../utils/constraints';
 import Board from './Board';
+import Flags from './Flags';
 import Timer from './Timer';
 
 export default function Game() {
@@ -14,6 +15,7 @@ export default function Game() {
   return (
     <View>
       <Timer stateGame={stateGame} />
+      <Flags />
       <Board stateGame={stateGame} gameOver={gameOver} startGame={startGame} />
     </View>
   );

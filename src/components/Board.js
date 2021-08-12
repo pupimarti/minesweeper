@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View } from 'react-native';
+import GameContext from '../context/GameContext';
 import { createBoard, pressEmptyCell } from '../utils/board';
 import { STATE_GAME } from '../utils/constraints';
 import Cell from './Cell';
@@ -7,7 +8,7 @@ import Cell from './Cell';
 export default function Board({ startGame, gameOver, stateGame }) {
   const [board, setBoard] = useState([]);
 
-  const [mines, setMines] = useState([]);
+  const { mines, newMines, addFlag, flags } = useContext(GameContext);
 
   useEffect(() => {
     startNew();
@@ -16,7 +17,11 @@ export default function Board({ startGame, gameOver, stateGame }) {
   const startNew = () => {
     const newGame = createBoard();
     setBoard(newGame.board);
-    setMines(newGame.mines);
+    newMines(newGame.mines);
+  };
+
+  const handlePressLongCell = (cell) => {
+    addFlag(cell);
   };
 
   const handlePressCell = ({ id, value, isMine, x, y }) => {
@@ -58,10 +63,13 @@ export default function Board({ startGame, gameOver, stateGame }) {
             {column.map((cell) => (
               <Cell
                 onPress={() => handlePressCell(cell)}
+                onLongPress={() => handlePressLongCell(cell)}
                 key={cell.id}
                 value={cell.value}
                 isMine={cell.isMine}
                 show={cell.show}
+                x={cell.x}
+                y={cell.y}
               />
             ))}
           </View>
