@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Board from './src/components/Board';
+import Game from './src/components/Game';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Board />
+      <Game />
     </View>
   );
 }

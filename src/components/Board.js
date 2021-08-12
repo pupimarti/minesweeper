@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, View } from 'react-native';
 import { createBoard, pressEmptyCell } from '../utils/board';
+import { STATE_GAME } from '../utils/constraints';
 import Cell from './Cell';
 
-export default function Board() {
+export default function Board({ startGame, gameOver, stateGame }) {
   const [board, setBoard] = useState([]);
 
   const [mines, setMines] = useState([]);
@@ -19,6 +20,7 @@ export default function Board() {
   };
 
   const handlePressCell = ({ id, value, isMine, x, y }) => {
+    if (stateGame === STATE_GAME.STOP) startGame();
     if (value === 0 && !isMine) {
       const new_board = pressEmptyCell({ x, y }, board);
       setBoard(new_board);
@@ -45,6 +47,7 @@ export default function Board() {
         return new_board;
       });
     });
+    gameOver();
   };
 
   return (
