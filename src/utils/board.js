@@ -1,4 +1,4 @@
-export const createBoard = (size = 10, quantityMines = 10) => {
+export const createBoard = (size = 5, quantityMines = 5) => {
   let board = [];
   for (let y = 0; y < size; y++) {
     let column = [];
@@ -34,7 +34,7 @@ export const createBoard = (size = 10, quantityMines = 10) => {
         while (index_x <= x + 1) {
           if (index_x >= 0 && index_x < size) {
             if (!board[index_y][index_x].isMine)
-            board[index_y][index_x].value++;
+              board[index_y][index_x].value++;
           }
           index_x++;
         }
@@ -53,8 +53,11 @@ export const pressEmptyCell = ({ x, y }, board) => {
 
   let empty_list = [{ x, y }];
 
+  let shows = [];
+
   while (empty_list.length > 0) {
     const cell_empty = empty_list.pop();
+    shows.push(cell_empty);
     let index_y = cell_empty.y - 1;
     let index_x = cell_empty.x - 1;
     while (index_y <= cell_empty.y + 1) {
@@ -78,5 +81,5 @@ export const pressEmptyCell = ({ x, y }, board) => {
     }
   }
 
-  return new_board;
+  return { new_board, shows };
 };

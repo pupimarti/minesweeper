@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import GameContext from '../context/GameContext';
 
@@ -11,8 +11,28 @@ export default function Cell({
   x,
   y,
 }) {
-  const { flags } = useContext(GameContext);
-  const isFlag = flags.find((flag) => flag.x === x && flag.y === y);
+  const { addFlag, removeFlag } = useContext(GameContext);
+  const [isFlag, setIsFlag] = useState(false);
+
+  const handleLongPress = () => {
+    if (!show) {
+      onLongPress();
+      if (isFlag) {
+        removeFlag({ x, y });
+        setIsFlag(false);
+      } else {
+        addFlag({ x, y });
+        setIsFlag(true);
+      }
+    }
+  };
+
+  const handleOnPress = () => {
+    if (isFlag) {
+      removeFlag({ x, y });
+      setIsFlag(false);
+    } else if (!show) onPress();
+  };
 
   return (
     <TouchableOpacity
@@ -25,8 +45,8 @@ export default function Cell({
         borderWidth: 1,
         margin: 1,
       }}
-      onPress={onPress}
-      onLongPress={onLongPress}
+      onPress={handleOnPress}
+      onLongPress={handleLongPress}
     >
       {(show || isFlag) && (
         <Text style={{ color: '#FFF', fontWeight: 'bold' }}>

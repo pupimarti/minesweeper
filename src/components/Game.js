@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { View } from 'react-native';
+import GameContext from '../context/GameContext';
 import { STATE_GAME } from '../utils/constraints';
 import Board from './Board';
 import Flags from './Flags';
+import IconState from './IconState';
 import Timer from './Timer';
 
 export default function Game() {
-  const [stateGame, setStateGame] = useState(STATE_GAME.STOP);
+  const { setStateGame } = useContext(GameContext);
 
-  const gameOver = () => setStateGame(STATE_GAME.STOP);
-
-  const startGame = () => setStateGame(STATE_GAME.PLAY);
+  const gameOver = () => setStateGame(STATE_GAME.GAME_OVER);
 
   return (
     <View>
-      <Timer stateGame={stateGame} />
-      <Flags />
-      <Board stateGame={stateGame} gameOver={gameOver} startGame={startGame} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Timer />
+        <IconState />
+        <Flags />
+      </View>
+      <Board gameOver={gameOver} />
     </View>
   );
 }

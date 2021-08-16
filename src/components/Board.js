@@ -5,43 +5,35 @@ import { createBoard, pressEmptyCell } from '../utils/board';
 import { STATE_GAME } from '../utils/constraints';
 import Cell from './Cell';
 
-export default function Board({ startGame, gameOver, stateGame }) {
-  const [board, setBoard] = useState([]);
-
-  const { mines, newMines, addFlag, flags } = useContext(GameContext);
+export default function Board({ gameOver }) {
+  const { mines, newBoard, stateGame, board, setBoard, startGame, addShows } =
+    useContext(GameContext);
 
   useEffect(() => {
-    startNew();
+    newBoard();
   }, []);
 
-  const startNew = () => {
-    const newGame = createBoard();
-    setBoard(newGame.board);
-    newMines(newGame.mines);
-  };
-
-  const handlePressLongCell = (cell) => {
-    addFlag(cell);
+  const handlePressLongCell = () => {
+    if (stateGame === STATE_GAME.STOP) startGame();
   };
 
   const handlePressCell = ({ id, value, isMine, x, y }) => {
-    if (stateGame === STATE_GAME.STOP) startGame();
-    if (value === 0 && !isMine) {
-      const new_board = pressEmptyCell({ x, y }, board);
-      setBoard(new_board);
-      return;
+    if (stateGame !== STATE_GAME.GAME_OVER) {
+      if (stateGame === STATE_GAME.STOP) startGame();
+      if (value === 0 && !isMine) {
+        const { new_board, shows } = pressEmptyCell({ x, y }, board);
+        setBoard(new_board);
+        addShows(shows);
+        return;
+      }
+      setBoard((prevBoard) => {
+        let new_board = [...prevBoard];
+        new_board[y][x] = { ...new_board[y][x], show: true };
+        return new_board;
+      });
+      if (isMine) handleGameOver();
+      else addShows([{ x, y }]);
     }
-    setBoard((prevBoard) => {
-      let new_board = [...prevBoard];
-      return new_board.map((columns) =>
-        columns.map((cell) => {
-          if (cell.id === id) {
-            return { ...cell, show: true };
-          } else return cell;
-        })
-      );
-    });
-    if (isMine) handleGameOver();
   };
 
   const handleGameOver = () => {
@@ -70,6 +62,7 @@ export default function Board({ startGame, gameOver, stateGame }) {
                 show={cell.show}
                 x={cell.x}
                 y={cell.y}
+                stateGame={stateGame}
               />
             ))}
           </View>

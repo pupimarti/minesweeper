@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
+import GameContext from '../context/GameContext';
 import { STATE_GAME } from '../utils/constraints';
 
-export default function Timer({ stateGame }) {
+export default function Timer() {
   const [timer, setTimer] = useState(0);
+
+  const { stateGame } = useContext(GameContext);
 
   useEffect(() => {
     let interval = null;
@@ -12,7 +15,7 @@ export default function Timer({ stateGame }) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
-    }
+    } else if (stateGame === STATE_GAME.STOP) setTimer(0);
 
     return () => {
       if (interval) clearInterval(interval);
