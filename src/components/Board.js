@@ -18,7 +18,7 @@ export default function Board({ gameOver }) {
   };
 
   const handlePressCell = ({ id, value, isMine, x, y }) => {
-    if (stateGame !== STATE_GAME.GAME_OVER) {
+    if (stateGame === STATE_GAME.PLAY || stateGame === STATE_GAME.STOP) {
       if (stateGame === STATE_GAME.STOP) startGame();
       if (value === 0 && !isMine) {
         const { new_board, shows } = pressEmptyCell({ x, y }, board);

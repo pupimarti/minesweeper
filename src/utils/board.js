@@ -57,7 +57,6 @@ export const pressEmptyCell = ({ x, y }, board) => {
 
   while (empty_list.length > 0) {
     const cell_empty = empty_list.pop();
-    shows.push(cell_empty);
     let index_y = cell_empty.y - 1;
     let index_x = cell_empty.x - 1;
     while (index_y <= cell_empty.y + 1) {
@@ -67,9 +66,11 @@ export const pressEmptyCell = ({ x, y }, board) => {
             const cell = new_board[index_y][index_x];
             if (!cell.isMine && cell.value === 0 && !cell.show) {
               cell.show = true;
+              shows.push(cell);
               empty_list.push({ x: index_x, y: index_y });
             } else if (!cell.isMine && !cell.show) {
               cell.show = true;
+              shows.push(cell);
             }
           }
           index_x++;

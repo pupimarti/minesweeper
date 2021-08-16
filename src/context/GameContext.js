@@ -56,6 +56,8 @@ export function GameContextProvider({ children }) {
       const totalCells = board.length * board.length;
       const totalShows = new_shows.length;
       const totalMines = mines.length;
+      console.log(totalCells);
+      console.log(totalCells - totalMines - totalShows );
       if (totalCells - totalMines - totalShows <= 0) winGame();
 
       return new_shows;

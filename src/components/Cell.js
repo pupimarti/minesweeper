@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import GameContext from '../context/GameContext';
+import { STATE_GAME } from '../utils/constraints';
 
 export default function Cell({
   value,
@@ -11,7 +12,7 @@ export default function Cell({
   x,
   y,
 }) {
-  const { addFlag, removeFlag } = useContext(GameContext);
+  const { addFlag, removeFlag, stateGame } = useContext(GameContext);
   const [isFlag, setIsFlag] = useState(false);
 
   const handleLongPress = () => {
@@ -33,6 +34,10 @@ export default function Cell({
       setIsFlag(false);
     } else if (!show) onPress();
   };
+
+  useEffect(() => {
+    if (stateGame === STATE_GAME.GAME_OVER) setIsFlag(false);
+  }, [stateGame]);
 
   return (
     <TouchableOpacity
