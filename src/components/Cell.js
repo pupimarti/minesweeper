@@ -41,21 +41,46 @@ export default function Cell({
 
   return (
     <TouchableOpacity
-      style={{
-        width: 30,
-        height: 30,
-        backgroundColor: show ? (isMine ? 'red' : 'green') : 'grey',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        margin: 1,
-      }}
+      style={[
+        {
+          width: 30,
+          height: 30,
+          backgroundColor: '#BDBDBD',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        show
+          ? {
+              borderWidth: 1,
+              borderColor: '#7B7B7B',
+            }
+          : {
+              borderWidth: 3,
+              borderTopColor: '#FFFFFF',
+              borderLeftColor: '#FFFFFF',
+              borderRightColor: '#7B7B7B',
+              borderBottomColor: '#7B7B7B',
+            },
+      ]}
       onPress={handleOnPress}
       onLongPress={handleLongPress}
     >
       {(show || isFlag) && (
-        <Text style={{ color: '#FFF', fontWeight: 'bold' }}>
-          {isFlag ? '?' : isMine ? 'X' : value}
+        <Text
+          style={{
+            color:
+              value === 1
+                ? '#0000FF'
+                : value === 2
+                ? '#007B00'
+                : value === 3
+                ? '#FF0000'
+                : 'black',
+            fontWeight: 'bold',
+            fontSize: 20,
+          }}
+        >
+          {isFlag ? '🚩' : isMine ? '💣' : value === 0 ? '' : value}
         </Text>
       )}
     </TouchableOpacity>

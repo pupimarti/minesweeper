@@ -23,8 +23,14 @@ export default function Timer() {
   }, [stateGame]);
 
   return (
-    <View>
-      <Text style={{ color: '#000' }}>{timer}</Text>
+    <View
+      style={{
+        backgroundColor: '#000',
+      }}
+    >
+      <Text style={{ color: '#FF0000', fontWeight: 'bold', fontSize: 25 }}>
+        {timer < 10 ? '00' + timer : timer < 100 ? '0' + timer : timer}
+      </Text>
     </View>
   );
 }

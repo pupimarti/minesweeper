@@ -48,7 +48,15 @@ export default function Board({ gameOver }) {
   };
 
   return (
-    <View>
+    <View
+      style={{
+        borderWidth: 3,
+        borderTopColor: '#7B7B7B',
+        borderLeftColor: '#7B7B7B',
+        borderRightColor: '#FFFFFF',
+        borderBottomColor: '#FFFFFF',
+      }}
+    >
       {Array.isArray(board) &&
         board.map((column, i) => (
           <View key={i} style={{ flexDirection: 'row' }}>
