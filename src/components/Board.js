@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import GameContext from '../context/GameContext';
 import { createBoard, pressEmptyCell } from '../utils/board';
 import { STATE_GAME } from '../utils/constraints';

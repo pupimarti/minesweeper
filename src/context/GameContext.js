@@ -15,6 +15,10 @@ export function GameContextProvider({ children }) {
 
   const [shows, setShows] = useState([]);
 
+  const [size, setSize] = useState(5);
+
+  const [quantityMines, setQuantityMines] = useState(5);
+
   const addFlag = ({ x, y }) => {
     setFlags((prevFlags) => [...prevFlags, { x, y }]);
   };
@@ -30,7 +34,7 @@ export function GameContextProvider({ children }) {
   const newMines = (new_mines) => setMines(new_mines);
 
   const newBoard = () => {
-    const newGame = createBoard();
+    const newGame = createBoard(size, quantityMines);
     setBoard(newGame.board);
     newMines(newGame.mines);
   };
@@ -48,6 +52,7 @@ export function GameContextProvider({ children }) {
 
   const winGame = () => {
     setStateGame(STATE_GAME.WIN);
+    alert('Ganaste!');
   };
 
   const addShows = (arr_shows) => {
@@ -56,8 +61,7 @@ export function GameContextProvider({ children }) {
       const totalCells = board.length * board.length;
       const totalShows = new_shows.length;
       const totalMines = mines.length;
-      console.log(totalCells);
-      console.log(totalCells - totalMines - totalShows );
+      console.log(totalCells - totalMines - totalShows);
       if (totalCells - totalMines - totalShows <= 0) winGame();
 
       return new_shows;
@@ -83,6 +87,10 @@ export function GameContextProvider({ children }) {
         shows,
         setShows,
         addShows,
+        size,
+        setSize,
+        quantityMines,
+        setQuantityMines,
       }}
     >
       {children}

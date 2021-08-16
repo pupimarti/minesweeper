@@ -28,7 +28,7 @@ export default function Game() {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems:'center',
+          alignItems: 'center',
           borderWidth: 3,
           borderTopColor: '#7B7B7B',
           borderLeftColor: '#7B7B7B',
@@ -37,7 +37,7 @@ export default function Game() {
           backgroundColor: '#C0C0C0',
         }}
       >
-      <Flags />
+        <Flags />
         <IconState />
         <Timer />
       </View>
